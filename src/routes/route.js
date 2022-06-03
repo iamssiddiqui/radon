@@ -1,30 +1,57 @@
 const express = require('express');
-const externalModule = require('./logger')
-
+//const externalModule = require('./logger')
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    console.log('The constant in logger route has a value '+externalModule.endpoint)
-    console.log('The current batch is '+externalModule.batch)
-    externalModule.log()
-    res.send('My first ever api!')
-});
 
-router.get('/test-me1', function (req, res) {
-    res.send('My second ever api!')
-});
+//Solution 01
+// router.get('/movies', function (req, res) {
+//  const movies = ['rang de basanti', 'the shining', 'lord of the rings', 'batman begins']
+//     res.send(movies)
+// });
 
-router.get('/test-me2', function (req, res) {
-    res.send('My third api!')
-});
 
-router.get('/test-me3', function (req, res) {
-    res.send('My 4th api!')
-});
+//Solution 02 and 3
+// router.get('/movies/:indexNumber', function(req, res) {
+//     const movies = ['rang de basanti', 'the shining', 'lord of the rings', 'batman begins']
+//     const indexNumber = req.params.indexNumber;
+//     const result = movies[(indexNumber-1)]
+//      if (indexNumber>movies.length){
+//         res.send('use a valid index')
+//     } else{
+//             res.send(result)
+//         }
+// });
 
-router.get('/test-me4', function (req, res) {
-    res.send('My last api!')
-});
+//Solution 04
+
+// router.get('/films', function (req, res){
+//     const films = [ 
+//         { id: 1, name: 'The Shining' }, 
+//         { id: 2, name: 'Incendies' }, 
+//         { id: 3, name: 'Rang de Basanti' }, 
+//         { id: 4, name: 'Finding Nemo' }
+//     ]
+//   res.send(films)  
+// });
+
+//Solution 05
+
+router.get('/films/:filmId', function(req, res) {
+    const filmId=req.params.filmId;
+    const films = [ 
+        { id: 1, name: 'The Shining' }, 
+        { id: 2, name: 'Incendies' }, 
+        { id: 3, name: 'Rang de Basanti' }, 
+        { id: 4, name: 'Finding Nemo' }
+    ]
+     for (i=0; i<films.length; i++){
+         if(filmId==films[i].id){
+             res.send(films[i])
+             return
+         }
+     }
+      res.send("No movie with this id")
+    });
 
 module.exports = router;
 // adding this comment for no reason
