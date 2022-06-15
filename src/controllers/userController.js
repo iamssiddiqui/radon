@@ -2,9 +2,6 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 const createUser = async function (abcd, xyz) {
-  //You can name the req, res objects anything.
-  //but the first parameter is always the request 
-  //the second parameter is always the response
   let data = abcd.body;
   let savedData = await userModel.create(data);
   console.log(abcd.newAtribute);
@@ -19,7 +16,7 @@ const loginUser = async function (req, res) {
   if (!user)
     return res.send({
       status: false,
-      msg: "username or the password is not corerct",
+      msg: "username or the password is not correct",
     });
 
   // Once the login is successful, create the jwt token with sign function
@@ -84,7 +81,24 @@ const updateUser = async function (req, res) {
   res.send({ status: updatedUser, data: updatedUser });
 };
 
+const updateData = async (req ,res) =>{
+  let userData = await userModel.findById(req.params.userId)
+  if(!userData) return res.send({msg: "user doesn't exist"})
+  let updateUser = await userModel.findOneAndUpdate({_id: req.params.userId}, req.body,{new: true});
+  res.send({msg: updateUser})
+ }
+
+const deleteUserData = async (req ,res) => {
+ let userData = await userModel.findById(req.params.userId)
+ if(!userData) return res.send({msg: "User doesn't exist"})
+ let updateUser = await userModel.findOneAndUpdate({_id: req.params.userId},{isDeleted: true},{new: true});
+ res.send({msg: updateUser})
+
+}
+
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.updateData = updateData;
+module.exports.deleteUserData = deleteUserData;

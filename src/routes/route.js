@@ -15,4 +15,10 @@ router.get("/users/:userId", userController.getUserData)
 
 router.put("/users/:userId", userController.updateUser)
 
+router.put("/users/:userId", userController.updateData)
+
+router.delete("/users/:userId", userController.deleteUserData)
+
+
+
 module.exports = router;
